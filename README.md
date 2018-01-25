@@ -5,7 +5,7 @@ Date: 25 January 2018
 Script que permite seleccionar que backup full quieres hacer (por mes) de un servidor de ficheros y comprimirlo con 7za en una unidad remota.
 
 Esta primera versión esta personalizada y sin rutas por variables, en proximas versiones lo modificare para que sea más flexible.
-Este script se ejecuta en un pequeño PC/Servidor Windows 7, con minimo 6GB de RAM y al que hemos sustituido el shell por este script para que autoarranque automaticamente y espere ordenes.
+Este script se ejecuta en un pequeño PC/Servidor Windows 7 - 64Bit, con minimo 6GB de RAM y al que hemos sustituido el shell por este script para que autoarranque automaticamente y espere ordenes.
 El proceso para sustituir el Shell de Windows por nuestro script es el siguiente:
 
 Ejecuta REGEDIT.EXE
