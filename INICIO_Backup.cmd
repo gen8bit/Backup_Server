@@ -10,7 +10,7 @@ COLOR 0A
 @ECHO email: angel.pescador@gmail.com
 @ECHO scripts name: %~nx0%
 @ECHO Location: %~d0%~p0
-@ECHO Version 4.1
+@ECHO Version 4.2
 @ECHO Date: 25/01/2018
 @ECHO ==========================================
 @ECHO.
