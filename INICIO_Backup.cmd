@@ -1,14 +1,13 @@
 @ECHO OFF
 TITLE Menu BACKUP Mensual de carpetas del servidor SRSHARES01
-COLOR 0A
+COLOR 0A
+
 
 
 @ECHO ==========================================
 @ECHO BACKUP Unidades de red
-@ECHO (c) Previlabor 2017
 @ECHO Author: Angel Pescador Portas
-@ECHO email: apescador@previlabor.com
-@ECHO email: tic@previlabor.com
+@ECHO email: angel.pescador@gmail.com
 @ECHO scripts name: INICIO_Backup.cmd
 @ECHO Location: C:\scripts\BackupCarpetasMENSUAL
 @ECHO Version 4.1
@@ -16,14 +15,19 @@ COLOR 0A
 @ECHO ==========================================
 @ECHO.
 
-
 
-:inicio
-
+
+:inicio
+
+
+
 TITLE Menu BACKUP Mensual de carpetas del servidor SRSHARES01
-COLOR 0A
+COLOR 0A
+
+
+
 CD C:\scripts\BackupCarpetasMENSUAL
-PING 127.0.0.1 >NULL
+PING 127.0.0.1 >NULL
 
 
 
@@ -57,7 +61,6 @@ set /p answer=Elige el Backup a ejecutar:
 
 
 
-
 if "%answer%"=="1" goto op1
 if "%answer%"=="2" goto op2
 if "%answer%"=="3" goto op3
@@ -75,9 +78,10 @@ if "%answer%"=="14" goto op14
 if "%answer%"=="0" goto op0
 
 
+
 CLS
 @ECHO.
-::Mensaje de error, validación cuando se selecciona una opción fuera de rango
+::Mensaje de error, validaciÃ³n cuando se selecciona una opciÃ³n fuera de rango
 @ECHO ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
 @ECHO.
 @ECHO ========================================================================
@@ -86,12 +90,10 @@ CLS
 @ECHO.
 @ECHO ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
 @ECHO.
-PING 127.0.0.1 >NULL
+PING 127.0.0.1 >NULL
+
 @ECHO.
 goto:inicio
-
-
-
 
 :op1
 SET MES=ENERO
@@ -143,7 +145,6 @@ goto:backup
 
 
 
-
 :backup
 
 CLS
@@ -155,160 +156,169 @@ CLS
 @ECHO Destino \\192.168.110.55\backup\SRSHARES01\%MES%
 @ECHO ======================================================
 @ECHO.
-SET INICIO= %date%-%time%
-
-PROMPT $G
-TITLE -=BACKUP %MES% =-
+SET INICIO= %date%-%time%
+PROMPT $G
+TITLE -=BACKUP %MES%=-
 COLOR 0A
-SET COPYCMD=Y
-
-SET _my_datetime=%date%_%time%
-SET _my_datetime=%_my_datetime: =_%
-SET _my_datetime=%_my_datetime::=%
-SET _my_datetime=%_my_datetime:/=_%
-SET _my_datetime=%_my_datetime:.=_%
-
-@ECHO.
-PING 127.0.0.1 >NULL
-
-@ECHO.
-@ECHO UNIDADES PERSONALES (U) 
+SET COPYCMD=Y
+
+SET _my_datetime=%date%_%time%
+SET _my_datetime=%_my_datetime: =_%
+SET _my_datetime=%_my_datetime::=%
+SET _my_datetime=%_my_datetime:/=_%
+SET _my_datetime=%_my_datetime:.=_%
+
+
+
+@ECHO.
+PING 127.0.0.1 >NULL
+@ECHO.
+
+
+@ECHO UNIDADES PERSONALES (U)
 @ECHO =======================
-@ECHO.
-
-@ECHO S|NET USE Y: /DELETE /Y >NULL
+@ECHO.
+@ECHO S|NET USE Y: /DELETE /Y >NULL
 NET USE Y: \\192.168.110.68\E$\UnidadesU >NULL
-PING 127.0.0.1 >NULL
-
-@ECHO S|NET USE Z: /DELETE /Y >NULL
-NET USE Z: \\192.168.110.55\backup\SRSHARES01\%MES%\UnidadesU >NULL
-PING 127.0.0.1 >NULL
+PING 127.0.0.1 >NULL
 
-
+
+
+@ECHO S|NET USE Z: /DELETE /Y >NULL
+NET USE Z: \\192.168.110.55\backup\SRSHARES01\%MES%\UnidadesU >NULL
+PING 127.0.0.1 >NULL
+
+
+
 Y:
 for /d %%X in (*) do (
  	MKDIR Z:\%%X
  	ECHO S|DEL Z:\%%X\*.* /Q /S
-	TITLE -=HACIENDO BACKUP UNIDADES PERSONALES %%X MES %MES%=-
+	TITLE -=HACIENDO BACKUP UNIDADES PERSONALES %%X MES %MES%=-
 	C:\scripts\BackupCarpetasMENSUAL\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@C:\scripts\BackupCarpetasMENSUAL\exclude.txt -pTxindoki1346 -mhe
 )
 
+
+
 C:
 CD C:\scripts\BackupCarpetasMENSUAL
 
-@ECHO.
-@ECHO UNIDADES COMUNES DISCO F
-@ECHO ========================
-@ECHO.
+@ECHO.
+@ECHO UNIDADES COMUNES DISCO F
+@ECHO ========================
+@ECHO.
 
-ECHO S|NET USE Y: /DELETE /Y >NULL
+
+
+ECHO S|NET USE Y: /DELETE /Y >NULL
 NET USE Y: \\192.168.110.68\F$\UnidadesComunes >NULL
-PING 127.0.0.1 >NULL
-
-ECHO S|NET USE Z: /DELETE /Y >NULL
+PING 127.0.0.1 >NULL
+
+
+
+ECHO S|NET USE Z: /DELETE /Y >NULL
 NET USE Z: \\192.168.110.55\BACKUP\SRSHARES01\%MES%\UnidadesComunes >NULL
-PING 127.0.0.1 >NULL
+PING 127.0.0.1 >NULL
+
+
 
 Y:
 for /d %%X in (*) do ( 
 	MKDIR Z:\%%X
 	ECHO S|DEL Z:\%%X\*.*
-	TITLE -=HACIENDO BACKUP UNIDAD COMUN %%X MES %MES%=-
+	TITLE -=HACIENDO BACKUP UNIDAD COMUN %%X MES %MES%=-
 	C:\scripts\BackupCarpetasMENSUAL\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@C:\scripts\BackupCarpetasMENSUAL\exclude.txt -pTxindoki1346 -mhe
-)
-
+)
+
+
+
 C:
 CD C:\scripts\BackupCarpetasMENSUAL
+@ECHO.
+@ECHO UNIDADES COMUNES DISCO G
+@ECHO ========================
+@ECHO.
 
-@ECHO.
-@ECHO UNIDADES COMUNES DISCO G
-@ECHO ========================
-@ECHO.
 
-ECHO S|NET USE Y: /DELETE /Y >NULL
+
+ECHO S|NET USE Y: /DELETE /Y >NULL
 NET USE Y: \\192.168.110.68\G$\UnidadesComunes >NULL
-PING 127.0.0.1 >NULL
-
+PING 127.0.0.1 >NULL
+
+
+
 Y:
 for /d %%X in (*) do ( 
 	MKDIR Z:\%%X
 	ECHO S|DEL Z:\%%X\*.*
-	TITLE -=HACIENDO BACKUP UNIDAD COMUN %%X MES %MES%=-
+	TITLE -=HACIENDO BACKUP UNIDAD COMUN %%X MES %MES%=-
 	C:\scripts\BackupCarpetasMENSUAL\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@C:\scripts\BackupCarpetasMENSUAL\exclude.txt -pTxindoki1346 -mhe
-)
+)
+
+
 
 C:
 CD C:\scripts\BackupCarpetasMENSUAL
+SET FIN= %date%-%time%
+TITLE fin del BACKUP Mensual
+@ECHO.
+@ECHO ===============================
+@ECHO FIN DEL SCRIPT
+@ECHO ===============================
+@ECHO INICIO: %INICIO%
+@ECHO FIN:    %FIN%
+@ECHO ===============================
 
-SET FIN= %date%-%time%
-TITLE fin del BACKUP Mensual
-@ECHO.
-@ECHO ===============================
-@ECHO FIN DEL SCRIPT
-@ECHO ===============================
-@ECHO INICIO: %INICIO%
-@ECHO FIN:    %FIN%
-@ECHO ===============================
-@ECHO.
 
-DEL bodymail.txt
-@ECHO Realizado el Backup completo de %MES% del servidor SRSHARES01 >>bodymail.txt
-@ECHO en la ruta \\192.168.110.55\BACKUP\SRSHARES01\%MES%\ >>bodymail.txt
+
+@ECHO.
+DEL bodymail.txt
+
+@ECHO Realizado el Backup completo de %MES% del servidor SRSHARES01 >>bodymail.txt
+@ECHO en la ruta \\192.168.110.55\BACKUP\SRSHARES01\%MES%\ >>bodymail.txt
 @ECHO. >>bodymail.txt
-@ECHO Para recuperar, usar 7za >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO Este correo esta automatizado, no responda a la direccion de origen. >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO IT Team >>bodymail.txt
-@ECHO. >>bodymail.txt
-
-BLAT -INSTALL previlabor-com.mail.protection.outlook.com Backup_%MES%_SRSHARES01@previlabor.com 10
-BLAT bodymail.txt -subject "Fin del Backup de las unidades compartidas del servidor SRSHARES01 - %MES%" -tf EmailsAddress.txt
+@ECHO Para recuperar, usar 7za >>bodymail.txt
+@ECHO. >>bodymail.txt
+@ECHO Este correo esta automatizado, no responda a la direccion de origen. >>bodymail.txt
+@ECHO. >>bodymail.txt
+@ECHO. >>bodymail.txt
+@ECHO. >>bodymail.txt
+@ECHO. >>bodymail.txt
+@ECHO IT Team >>bodymail.txt
+@ECHO. >>bodymail.txt
 
-
-PING 127.0.0.1 >NULL
-PING 127.0.0.1 >NULL
+
+
+BLAT -INSTALL previlabor-com.mail.protection.outlook.com Backup_%MES%_SRSHARES01@previlabor.com 10
+BLAT bodymail.txt -subject "Fin del Backup de las unidades compartidas del servidor SRSHARES01 - %MES%" -tf EmailsAddress.txt
+PING 127.0.0.1 >NULL
+PING 127.0.0.1 >NULL
+
+
+
 SHUTDOWN /s /t 30
-
-
-
-
 goto:inicio
-
 
 
 
 :op13
 CLS
-
 @ECHO [13] Saliendo al DOS, para volver a ir al menu, ejecuta EXIT
 @ECHO ============================================================
-TITLE Saliendo al DOS
-PING 127.0.0.1 >NULL
+TITLE Saliendo al DOS
+PING 127.0.0.1 >NULL
 CMD
 goto:inicio
 
 
 
-
-
-
 :op14
 CLS
-
 TITLE Apagando el servidor de BACKUP
 @ECHO [14] Apagando este servidor de BACKUP
-SHUTDOWN /s /t 30
-PING 127.0.0.1 >NULL
-PING 127.0.0.1 >NULL
-
-
-
-
-
+SHUTDOWN /s /t 30
+PING 127.0.0.1 >NULL
+PING 127.0.0.1 >NULL
 
 
 EXIT
