@@ -8,10 +8,10 @@ COLOR 0A
 @ECHO BACKUP Unidades de red
 @ECHO Author: Angel Pescador Portas
 @ECHO email: angel.pescador@gmail.com
-@ECHO scripts name: INICIO_Backup.cmd
-@ECHO Location: C:\scripts\BackupCarpetasMENSUAL
-@ECHO Version 4.1
-@ECHO Date: 25/10/2017
+@ECHO scripts name: %~nx0%
+@ECHO Location: %~d0%~p0
+@ECHO Version 4.2
+@ECHO Date: 25/01/2018
 @ECHO ==========================================
 @ECHO.
 
@@ -26,7 +26,6 @@ COLOR 0A
 
 
 
-CD C:\scripts\BackupCarpetasMENSUAL
 PING 127.0.0.1 >NULL
 
 
@@ -195,13 +194,13 @@ for /d %%X in (*) do (
  	MKDIR Z:\%%X
  	ECHO S|DEL Z:\%%X\*.* /Q /S
 	TITLE -=HACIENDO BACKUP UNIDADES PERSONALES %%X MES %MES%=-
-	C:\scripts\BackupCarpetasMENSUAL\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@C:\scripts\BackupCarpetasMENSUAL\exclude.txt -pTxindoki1346 -mhe
+	%~d0%~p0\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@%~d0%~p0\exclude.txt -pPasswordForThe7zaFile -mhe
 )
 
 
 
 C:
-CD C:\scripts\BackupCarpetasMENSUAL
+CD %~d0%~p0
 
 @ECHO.
 @ECHO UNIDADES COMUNES DISCO F
@@ -227,13 +226,13 @@ for /d %%X in (*) do (
 	MKDIR Z:\%%X
 	ECHO S|DEL Z:\%%X\*.*
 	TITLE -=HACIENDO BACKUP UNIDAD COMUN %%X MES %MES%=-
-	C:\scripts\BackupCarpetasMENSUAL\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@C:\scripts\BackupCarpetasMENSUAL\exclude.txt -pTxindoki1346 -mhe
+	%~d0%~p0\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@%~d0%~p0\exclude.txt -pPasswordForThe7zaFile -mhe
 )
 
 
 
 C:
-CD C:\scripts\BackupCarpetasMENSUAL
+CD %~d0%~p0
 @ECHO.
 @ECHO UNIDADES COMUNES DISCO G
 @ECHO ========================
@@ -252,13 +251,13 @@ for /d %%X in (*) do (
 	MKDIR Z:\%%X
 	ECHO S|DEL Z:\%%X\*.*
 	TITLE -=HACIENDO BACKUP UNIDAD COMUN %%X MES %MES%=-
-	C:\scripts\BackupCarpetasMENSUAL\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@C:\scripts\BackupCarpetasMENSUAL\exclude.txt -pTxindoki1346 -mhe
+	%~d0%~p0\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@%~d0%~p0\exclude.txt -pPasswordForThe7zaFile -mhe
 )
 
 
 
 C:
-CD C:\scripts\BackupCarpetasMENSUAL
+CD %~d0%~p0
 SET FIN= %date%-%time%
 TITLE fin del BACKUP Mensual
 @ECHO.
