@@ -23,13 +23,7 @@ COLOR 0A
 
 TITLE Menu BACKUP Mensual de carpetas del servidor SRSHARES01
 COLOR 0A
-
-
-
 PING 127.0.0.1 >NULL
-
-
-
 CLS
 
 @ECHO Menu BACKUP Mensual de carpetas servidor del SRSHARES01
@@ -54,9 +48,9 @@ CLS
 @ECHO [12] Diciembre
 @ECHO.
 @ECHO [13] Salir al DOS
-@ECHO [14] Apagar este servidor de BACKUP
+@ECHO [14] Apagar este servidor
 @ECHO.
-set /p answer=Elige el Backup a ejecutar: 
+set /p answer=Elige la opcion o Backup a ejecutar: 
 
 
 
