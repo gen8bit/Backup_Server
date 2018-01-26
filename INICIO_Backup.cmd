@@ -88,6 +88,25 @@ PING 127.0.0.1 >NULL
 @ECHO.
 goto:inicio
 
+
+:op0
+CLS
+@ECHO.
+@ECHO.
+@ECHO -=-=-=-=-=-=-=-=-=  \ll/  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+@ECHO  ,     * `       '  l  @___oo  +   .
+@ECHO     *     /\  /\   / (__,,,,l    ,    No 0 no es ninguna opcion valida!
+@ECHO  + .  *  ) /^\) ^\/ _)    .
+@ECHO          )   /^\/   _)        *   `    Eligue otra opcion
+@ECHO  ,  `    )   _ /  / _)   *      .      o el dragon volvera!
+@ECHO      /\  )/\/ ll  l )_)     +  ,        
+@ECHO  *   /\       l(,,) )__)  `      *
+@ECHO ,    ll   *  /    \)___)\     *   +    
+@ECHO      l \____(      )___) )___   '
+@ECHO -=-  \______(_______;;; __;;;  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+PING 127.0.0.1 -5 >NULL
+goto:inicio
+
 :op1
 SET MES=ENERO
 goto:backup
