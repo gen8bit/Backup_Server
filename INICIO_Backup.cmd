@@ -1,19 +1,27 @@
+CLS
 @ECHO OFF
 TITLE Menu BACKUP Mensual de carpetas del servidor SRSHARES01
 COLOR 0A
 
 
 
-@ECHO ==========================================
+@ECHO ===========================================
 @ECHO BACKUP Unidades de red
+@ECHO (c) Previlabor 2017
 @ECHO Author: Angel Pescador Portas
-@ECHO email: angel.pescador@gmail.com
+@ECHO email: apescador@previlabor.com
+@ECHO email: tic@previlabor.com
 @ECHO scripts name: %~nx0%
 @ECHO Location: %~d0%~p0
-@ECHO Version 4.1
-@ECHO Date: 25/01/2018
-@ECHO ==========================================
+@ECHO Version 4.4
+@ECHO Date:   08/09/2017
+@ECHO Update: 09/02/2018
+@ECHO ===========================================
 @ECHO.
+PING 127.0.0.1 >NUL
+
+
+SET WorkDIR=%~d0%~p0
 
 
 
@@ -25,10 +33,7 @@ TITLE Menu BACKUP Mensual de carpetas del servidor SRSHARES01
 COLOR 0A
 
 
-
-PING 127.0.0.1 >NULL
-
-
+CD %WorkDIR%
 
 CLS
 
@@ -60,6 +65,7 @@ set /p answer=Elige el Backup a ejecutar:
 
 
 
+
 if "%answer%"=="1" goto op1
 if "%answer%"=="2" goto op2
 if "%answer%"=="3" goto op3
@@ -77,10 +83,8 @@ if "%answer%"=="14" goto op14
 if "%answer%"=="0" goto op0
 
 
-
 CLS
 @ECHO.
-::Mensaje de error, validación cuando se selecciona una opción fuera de rango
 @ECHO ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
 @ECHO.
 @ECHO ========================================================================
@@ -89,10 +93,37 @@ CLS
 @ECHO.
 @ECHO ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR ERROR
 @ECHO.
-PING 127.0.0.1 >NULL
+PING 127.0.0.1 >NUL
+
+
+
 
 @ECHO.
 goto:inicio
+
+
+
+:op0
+CLS
+@ECHO.
+@ECHO.
+@ECHO -=-=-=-=-=-=-=-=-=  \ll/  =-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+@ECHO  ,     * `       '  l  @___oo  +   .
+@ECHO     *     /\  /\   / (__,,,,l    ,    No, 0 no es ninguna opcion valida!
+@ECHO  + .  *  ) /^\) ^\/ _)    .
+@ECHO          )   /^\/   _)        *   `    Eligue otra opcion
+@ECHO  ,  `    )   _ /  / _)   *      .      o el dragon volvera!
+@ECHO      /\  )/\/ ll  l )_)     +  ,        
+@ECHO  *   /\       l(,,) )__)  `      *
+@ECHO ,    ll   *  /    \)___)\     *   +    
+@ECHO      l \____(      )___) )___   '
+@ECHO -=-  \______(_______;;; __;;;  -=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-=-
+PING 127.0.0.1 -n 5 >NUL
+
+
+goto:inicio
+
+
 
 :op1
 SET MES=ENERO
@@ -145,7 +176,6 @@ goto:backup
 
 
 :backup
-
 CLS
 @ECHO Backup servidor SRSHARES01
 @ECHO ======================================================
@@ -156,36 +186,39 @@ CLS
 @ECHO ======================================================
 @ECHO.
 SET INICIO= %date%-%time%
+
+
+
 PROMPT $G
 TITLE -=BACKUP %MES%=-
+
+
+
 COLOR 0A
 SET COPYCMD=Y
-
 SET _my_datetime=%date%_%time%
 SET _my_datetime=%_my_datetime: =_%
 SET _my_datetime=%_my_datetime::=%
 SET _my_datetime=%_my_datetime:/=_%
 SET _my_datetime=%_my_datetime:.=_%
+@ECHO.
+PING 127.0.0.1 >NUL
 
 
 
 @ECHO.
-PING 127.0.0.1 >NULL
-@ECHO.
-
-
 @ECHO UNIDADES PERSONALES (U)
 @ECHO =======================
 @ECHO.
-@ECHO S|NET USE Y: /DELETE /Y >NULL
-NET USE Y: \\192.168.110.68\E$\UnidadesU >NULL
-PING 127.0.0.1 >NULL
+@ECHO S|NET USE Y: /DELETE /Y >NUL
+NET USE Y: \\192.168.110.68\E$\UnidadesU >NUL
+PING 127.0.0.1 >NUL
 
 
 
-@ECHO S|NET USE Z: /DELETE /Y >NULL
-NET USE Z: \\192.168.110.55\backup\SRSHARES01\%MES%\UnidadesU >NULL
-PING 127.0.0.1 >NULL
+@ECHO S|NET USE Z: /DELETE /Y >NUL
+NET USE Z: \\192.168.110.55\backup\SRSHARES01\%MES%\UnidadesU >NUL
+PING 127.0.0.1 >NUL
 
 
 
@@ -194,13 +227,15 @@ for /d %%X in (*) do (
  	MKDIR Z:\%%X
  	ECHO S|DEL Z:\%%X\*.* /Q /S
 	TITLE -=HACIENDO BACKUP UNIDADES PERSONALES %%X MES %MES%=-
-	%~d0%~p0\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@%~d0%~p0\exclude.txt -pPasswordForThe7zaFile -mhe
+	START /B /LOW /WAIT %WorkDIR%7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@%WorkDIR%exclude.txt -pTxindoki1346 -mhe
 )
 
 
 
 C:
-CD %~d0%~p0
+CD %WorkDIR%
+
+
 
 @ECHO.
 @ECHO UNIDADES COMUNES DISCO F
@@ -209,15 +244,15 @@ CD %~d0%~p0
 
 
 
-ECHO S|NET USE Y: /DELETE /Y >NULL
-NET USE Y: \\192.168.110.68\F$\UnidadesComunes >NULL
-PING 127.0.0.1 >NULL
+ECHO S|NET USE Y: /DELETE /Y >NUL
+NET USE Y: \\192.168.110.68\F$\UnidadesComunes >NUL
+PING 127.0.0.1 >NUL
 
 
 
-ECHO S|NET USE Z: /DELETE /Y >NULL
-NET USE Z: \\192.168.110.55\BACKUP\SRSHARES01\%MES%\UnidadesComunes >NULL
-PING 127.0.0.1 >NULL
+ECHO S|NET USE Z: /DELETE /Y >NUL
+NET USE Z: \\192.168.110.55\BACKUP\SRSHARES01\%MES%\UnidadesComunes >NUL
+PING 127.0.0.1 >NUL
 
 
 
@@ -226,13 +261,13 @@ for /d %%X in (*) do (
 	MKDIR Z:\%%X
 	ECHO S|DEL Z:\%%X\*.*
 	TITLE -=HACIENDO BACKUP UNIDAD COMUN %%X MES %MES%=-
-	%~d0%~p0\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@%~d0%~p0\exclude.txt -pPasswordForThe7zaFile -mhe
+	START /B /LOW /WAIT %WorkDIR%7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@%WorkDIR%exclude.txt -pTxindoki1346 -mhe
 )
 
 
 
 C:
-CD %~d0%~p0
+CD %WorkDIR%
 @ECHO.
 @ECHO UNIDADES COMUNES DISCO G
 @ECHO ========================
@@ -240,9 +275,9 @@ CD %~d0%~p0
 
 
 
-ECHO S|NET USE Y: /DELETE /Y >NULL
-NET USE Y: \\192.168.110.68\G$\UnidadesComunes >NULL
-PING 127.0.0.1 >NULL
+ECHO S|NET USE Y: /DELETE /Y >NUL
+NET USE Y: \\192.168.110.68\G$\UnidadesComunes >NUL
+PING 127.0.0.1 >NUL
 
 
 
@@ -251,14 +286,17 @@ for /d %%X in (*) do (
 	MKDIR Z:\%%X
 	ECHO S|DEL Z:\%%X\*.*
 	TITLE -=HACIENDO BACKUP UNIDAD COMUN %%X MES %MES%=-
-	%~d0%~p0\7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@%~d0%~p0\exclude.txt -pPasswordForThe7zaFile -mhe
+	START /B /LOW /WAIT %WorkDIR%7za.exe a Z:\%%X\%%X.7z Y:\%%X\*.* -r -V1G -bt -y -mx=9 -ms=on -t7z -xr@%WorkDIR%exclude.txt -pTxindoki1346 -mhe
 )
 
 
 
 C:
-CD %~d0%~p0
+CD %WorkDIR%
 SET FIN= %date%-%time%
+
+
+
 TITLE fin del BACKUP Mensual
 @ECHO.
 @ECHO ===============================
@@ -267,45 +305,48 @@ TITLE fin del BACKUP Mensual
 @ECHO INICIO: %INICIO%
 @ECHO FIN:    %FIN%
 @ECHO ===============================
-
-
-
 @ECHO.
-DEL bodymail.txt
-
-@ECHO Realizado el Backup completo de %MES% del servidor SRSHARES01 >>bodymail.txt
-@ECHO en la ruta \\192.168.110.55\BACKUP\SRSHARES01\%MES%\ >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO Para recuperar, usar 7za >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO Este correo esta automatizado, no responda a la direccion de origen. >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO. >>bodymail.txt
-@ECHO IT Team >>bodymail.txt
-@ECHO. >>bodymail.txt
 
 
 
-BLAT -INSTALL previlabor-com.mail.protection.outlook.com Backup_%MES%_SRSHARES01@previlabor.com 10
-BLAT bodymail.txt -subject "Fin del Backup de las unidades compartidas del servidor SRSHARES01 - %MES%" -tf EmailsAddress.txt
-PING 127.0.0.1 >NULL
-PING 127.0.0.1 >NULL
+DEL %WorkDIR%bodymail.txt
+@ECHO Realizado el Backup completo de %MES% del servidor SRSHARES01 >>%WorkDIR%bodymail.txt
+@ECHO en la ruta \\192.168.110.55\BACKUP\SRSHARES01\%MES%\ >>%WorkDIR%bodymail.txt
+@ECHO. >>%WorkDIR%bodymail.txt
+@ECHO Para recuperar, usar 7za >>%WorkDIR%bodymail.txt
+@ECHO. >>%WorkDIR%bodymail.txt
+@ECHO Este correo esta automatizado, no responda a la direccion de origen. >>%WorkDIR%bodymail.txt
+@ECHO. >>%WorkDIR%bodymail.txt
+@ECHO. >>%WorkDIR%bodymail.txt
+@ECHO. >>%WorkDIR%bodymail.txt
+@ECHO. >>%WorkDIR%bodymail.txt
+@ECHO IT Team >>%WorkDIR%bodymail.txt
+@ECHO. >>%WorkDIR%bodymail.txt
+
+
+
+%WorkDIR%BLAT -INSTALL previlabor-com.mail.protection.outlook.com Backup_%MES%_SRSHARES01@previlabor.com 10
+%WorkDIR%BLAT bodymail.txt -subject "Fin del Backup de las unidades compartidas del servidor SRSHARES01 - %MES%" -tf %WorkDIR%EmailsAddress.txt
+
+
+
+PING 127.0.0.1 >NUL
+PING 127.0.0.1 >NUL
 
 
 
 SHUTDOWN /s /t 30
+@ECHO "¡Adios!"
 goto:inicio
 
 
 
 :op13
 CLS
+
 @ECHO [13] Saliendo al DOS, para volver a ir al menu, ejecuta EXIT
 @ECHO ============================================================
 TITLE Saliendo al DOS
-PING 127.0.0.1 >NULL
 CMD
 goto:inicio
 
@@ -313,11 +354,14 @@ goto:inicio
 
 :op14
 CLS
+
 TITLE Apagando el servidor de BACKUP
 @ECHO [14] Apagando este servidor de BACKUP
 SHUTDOWN /s /t 30
-PING 127.0.0.1 >NULL
-PING 127.0.0.1 >NULL
+
+PING 127.0.0.1 >NUL
+PING 127.0.0.1 >NUL
+
 
 
 EXIT
